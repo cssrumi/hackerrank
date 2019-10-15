@@ -4,53 +4,41 @@ import java.security.*;
 import java.text.*;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.function.*;
 import java.util.regex.*;
-import java.util.stream.*;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 
 public class Solution {
 
-    // Complete the compareTriplets function below.
-    static List<Integer> compareTriplets(List<Integer> a, List<Integer> b) {
-        List<Integer> results = new ArrayList<>();
-
-        int a_result = IntStream.range(0, Math.min(a.size(), b.size()))
-                .mapToObj(i -> (a.get(i) > b.get(i)) ? 1 : 0)
-                .filter(value -> value > 0)
-                .reduce(0, Integer::sum);
-        int b_result = IntStream.range(0, Math.min(a.size(), b.size()))
-                .mapToObj(i -> (a.get(i) < b.get(i)) ? 1 : 0)
-                .filter(value -> value > 0)
-                .reduce(0, Integer::sum);
-        results.add(a_result);
-        results.add(b_result);
-        return results;
+    // Complete the aVeryBigSum function below.
+    static long aVeryBigSum(long[] ar) {
+        long sum = Arrays.stream(ar).sum();
+        return sum;
     }
 
+    private static final Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        List<Integer> a = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
-                .map(Integer::parseInt)
-                .collect(toList());
+        int arCount = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-        List<Integer> b = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
-                .map(Integer::parseInt)
-                .collect(toList());
+        long[] ar = new long[arCount];
 
-        List<Integer> result = compareTriplets(a, b);
+        String[] arItems = scanner.nextLine().split(" ");
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-        bufferedWriter.write(
-                result.stream()
-                        .map(Object::toString)
-                        .collect(joining(" "))
-                        + "\n"
-        );
+        for (int i = 0; i < arCount; i++) {
+            long arItem = Long.parseLong(arItems[i]);
+            ar[i] = arItem;
+        }
 
-        bufferedReader.close();
+        long result = aVeryBigSum(ar);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
         bufferedWriter.close();
+
+        scanner.close();
     }
 }
