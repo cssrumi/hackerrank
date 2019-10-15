@@ -1,68 +1,55 @@
-import com.sun.xml.internal.ws.util.StreamUtils;
-
 import java.io.*;
 import java.math.*;
 import java.security.*;
 import java.text.*;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.function.*;
 import java.util.regex.*;
-import java.util.stream.*;
-
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
-
-class Result {
-
-    /*
-     * Complete the 'diagonalDifference' function below.
-     *
-     * The function is expected to return an INTEGER.
-     * The function accepts 2D_INTEGER_ARRAY arr as parameter.
-     */
-
-    public static int diagonalDifference(List<List<Integer>> arr) {
-        // Write your code here
-        int a = IntStream.range(0, arr.size())
-                .map(i -> arr.get(i).get(i))
-                .sum();
-        int b = IntStream.range(0, arr.size())
-                .map(i -> arr.get(i)
-                        .get((arr.size() - 1) - i))
-                .sum();
-        return Math.abs(a - b);
-    }
-
-}
 
 public class Solution {
-    public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        int n = Integer.parseInt(bufferedReader.readLine().trim());
+    // Complete the plusMinus function below.
+    static void plusMinus(int[] arr) {
+        long negativeCount = Arrays.stream(arr)
+                .filter(e -> e < 0)
+                .count();
+        long positiveCount = Arrays.stream(arr)
+                .filter(e -> e > 0)
+                .count();
+        long zeroCount = Arrays.stream(arr)
+                .filter(e -> e == 0)
+                .count();
+        long sum = negativeCount + positiveCount + zeroCount;
+        BigDecimal negativeBD = BigDecimal.valueOf(negativeCount);
+        BigDecimal positiveBD = BigDecimal.valueOf(positiveCount);
+        BigDecimal zeroBD = BigDecimal.valueOf(zeroCount);
+        BigDecimal sumBD = BigDecimal.valueOf(sum);
+        BigDecimal negativeFraction = negativeBD.divide(sumBD, 6, RoundingMode.CEILING);
+        BigDecimal positiveFraction = positiveBD.divide(sumBD, 6, RoundingMode.CEILING);
+        BigDecimal zeroFraction = zeroBD.divide(sumBD, 6, RoundingMode.CEILING);
+        System.out.println(positiveFraction);
+        System.out.println(negativeFraction);
+        System.out.println(zeroFraction);
+    }
 
-        List<List<Integer>> arr = new ArrayList<>();
+    private static final Scanner scanner = new Scanner(System.in);
 
-        IntStream.range(0, n).forEach(i -> {
-            try {
-                arr.add(
-                        Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
-                                .map(Integer::parseInt)
-                                .collect(toList())
-                );
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+    public static void main(String[] args) {
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-        int result = Result.diagonalDifference(arr);
+        int[] arr = new int[n];
 
-        bufferedWriter.write(String.valueOf(result));
-        bufferedWriter.newLine();
+        String[] arrItems = scanner.nextLine().split(" ");
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-        bufferedReader.close();
-        bufferedWriter.close();
+        for (int i = 0; i < n; i++) {
+            int arrItem = Integer.parseInt(arrItems[i]);
+            arr[i] = arrItem;
+        }
+
+        plusMinus(arr);
+
+        scanner.close();
     }
 }
