@@ -5,31 +5,26 @@ import java.text.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
+import java.util.stream.IntStream;
 
 public class Solution {
 
-    // Complete the plusMinus function below.
-    static void plusMinus(int[] arr) {
-        long negativeCount = Arrays.stream(arr)
-                .filter(e -> e < 0)
-                .count();
-        long positiveCount = Arrays.stream(arr)
-                .filter(e -> e > 0)
-                .count();
-        long zeroCount = Arrays.stream(arr)
-                .filter(e -> e == 0)
-                .count();
-        long sum = negativeCount + positiveCount + zeroCount;
-        BigDecimal negativeBD = BigDecimal.valueOf(negativeCount);
-        BigDecimal positiveBD = BigDecimal.valueOf(positiveCount);
-        BigDecimal zeroBD = BigDecimal.valueOf(zeroCount);
-        BigDecimal sumBD = BigDecimal.valueOf(sum);
-        BigDecimal negativeFraction = negativeBD.divide(sumBD, 6, RoundingMode.CEILING);
-        BigDecimal positiveFraction = positiveBD.divide(sumBD, 6, RoundingMode.CEILING);
-        BigDecimal zeroFraction = zeroBD.divide(sumBD, 6, RoundingMode.CEILING);
-        System.out.println(positiveFraction);
-        System.out.println(negativeFraction);
-        System.out.println(zeroFraction);
+    // Complete the staircase function below.
+    static void staircase(int n) {
+        StringBuffer sb = new StringBuffer();
+        char s = ' ';
+        char h = '#';
+        for(int i = 0; i<n; i++) {
+            for (int j = n-1; j>=0; j--) {
+                if (j <= i) {
+                    sb.append(h);
+                } else {
+                    sb.append(s);
+                }
+            }
+            sb.append('\n');
+        }
+        System.out.println(sb.toString());
     }
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -38,17 +33,7 @@ public class Solution {
         int n = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-        int[] arr = new int[n];
-
-        String[] arrItems = scanner.nextLine().split(" ");
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-        for (int i = 0; i < n; i++) {
-            int arrItem = Integer.parseInt(arrItems[i]);
-            arr[i] = arrItem;
-        }
-
-        plusMinus(arr);
+        staircase(n);
 
         scanner.close();
     }
