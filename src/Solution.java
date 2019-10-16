@@ -1,47 +1,35 @@
 import java.io.*;
 import java.math.*;
-import java.security.*;
 import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.regex.*;
 
 public class Solution {
 
-    // Complete the birthdayCakeCandles function below.
-    static int birthdayCakeCandles(int[] ar) {
-        OptionalInt max = Arrays.stream(ar).max();
-        return Arrays.stream(ar)
-                .filter(e -> e == max.getAsInt())
-                .map(e -> 1)
-                .reduce(0, Integer::sum);
-    }
+    /*
+     * Complete the timeConversion function below.
+     */
+    static String timeConversion(String s) {
+        /*
+         * Write your code here.
+         */
+        SimpleDateFormat dateFormat12 = new SimpleDateFormat("hh:mm:ssaa");
+        SimpleDateFormat dateFormat24 = new SimpleDateFormat("HH:mm:ss");
 
-    private static final Scanner scanner = new Scanner(System.in);
-
-    public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
-
-        int arCount = scanner.nextInt();
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-        int[] ar = new int[arCount];
-
-        String[] arItems = scanner.nextLine().split(" ");
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-        for (int i = 0; i < arCount; i++) {
-            int arItem = Integer.parseInt(arItems[i]);
-            ar[i] = arItem;
+        try {
+            return dateFormat24.format(dateFormat12.parse(s));
+        } catch (ParseException e) {
+            return e.getMessage();
         }
 
-        int result = birthdayCakeCandles(ar);
+    }
 
-        bufferedWriter.write(String.valueOf(result));
-        bufferedWriter.newLine();
+    private static final Scanner scan = new Scanner(System.in);
 
-        bufferedWriter.close();
+    public static void main(String[] args) throws IOException {
+        String s = scan.nextLine();
 
-        scanner.close();
+        String result = timeConversion(s);
+        System.out.println(result);
     }
 }
