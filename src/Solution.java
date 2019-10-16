@@ -8,36 +8,39 @@ import java.util.regex.*;
 
 public class Solution {
 
-    // Complete the miniMaxSum function below.
-    static void miniMaxSum(int[] arr) {
-        BigInteger sum = Arrays.stream(arr)
-                .mapToObj(BigInteger::valueOf)
-                .reduce(BigInteger.valueOf(0), BigInteger::add);
-        BigInteger min = sum.subtract(
-                BigInteger.valueOf(Arrays.stream(arr)
-                        .max()
-                        .orElse(0)));
-        BigInteger max = sum.subtract(
-                BigInteger.valueOf(Arrays.stream(arr)
-                        .min()
-                        .orElse(0)));
-        System.out.println(min.toString() + " " + max.toString());
+    // Complete the birthdayCakeCandles function below.
+    static int birthdayCakeCandles(int[] ar) {
+        OptionalInt max = Arrays.stream(ar).max();
+        return Arrays.stream(ar)
+                .filter(e -> e == max.getAsInt())
+                .map(e -> 1)
+                .reduce(0, Integer::sum);
     }
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        int[] arr = new int[5];
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        String[] arrItems = scanner.nextLine().split(" ");
+        int arCount = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-        for (int i = 0; i < 5; i++) {
-            int arrItem = Integer.parseInt(arrItems[i]);
-            arr[i] = arrItem;
+        int[] ar = new int[arCount];
+
+        String[] arItems = scanner.nextLine().split(" ");
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int i = 0; i < arCount; i++) {
+            int arItem = Integer.parseInt(arItems[i]);
+            ar[i] = arItem;
         }
 
-        miniMaxSum(arr);
+        int result = birthdayCakeCandles(ar);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
 
         scanner.close();
     }
