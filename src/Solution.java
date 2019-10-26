@@ -9,18 +9,20 @@ import static java.util.stream.Collectors.toMap;
 
 public class Solution {
 
-    static int marsExploration(String s) {
-        String sos = "SOS";
-        int diff = 0;
-        String temp;
+    static String hackerrankInString(String s) {
+        String h = "hackerrank";
+        CharacterIterator hi = new StringCharacterIterator(h);
+        CharacterIterator si = new StringCharacterIterator(s);
 
-        for (int i = 0; i < s.length(); i += sos.length()) {
-            temp = s.substring(i, i + sos.length());
-            for (int l = 0; l < sos.length(); l++) {
-                if (temp.charAt(l) != sos.charAt(l)) diff++;
-            }
+        char hCur = hi.current();
+        char sCur = si.current();
+
+        while (sCur != CharacterIterator.DONE) {
+            if (hCur == sCur) hCur = hi.next();
+            sCur = si.next();
+            if (hCur == CharacterIterator.DONE) return "YES";
         }
-        return diff;
+        return "NO";
     }
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -31,8 +33,8 @@ public class Solution {
 //        List<Integer> list = Arrays.asList(73, 67, 38, 33);
 //        List<Integer> result = gradingStudents(list);
 
-        String str = "SOSSPSSQSSOR";
-        int result = marsExploration(str);
+        String str = "hereiamstackerrank";
+        String result = hackerrankInString(str);
         System.out.println(result);
     }
 }
