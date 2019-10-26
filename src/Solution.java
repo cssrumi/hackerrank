@@ -5,13 +5,40 @@ import java.util.*;
 
 public class Solution {
 
-    static int camelcase(String s) {
-        CharacterIterator i = new StringCharacterIterator(s);
-        int counter = 1;
+    static int minimumNumber(int n, String password) {
+        String specialCharacters = "!@#$%^&*()-+";
+        int minimumNum = Math.max(6 - n, 0);
+        boolean isUpper = false;
+        boolean isLower = false;
+        boolean isNumber = false;
+        boolean isSpecialCharacter = false;
+        int checkSum = 4;
+
+        CharacterIterator i = new StringCharacterIterator(password);
+
         while (i.current() != CharacterIterator.DONE) {
-            if (Character.isUpperCase(i.next())) counter++;
+            if (Character.isUpperCase(i.current()) && !isUpper) {
+                isUpper = true;
+                checkSum--;
+            }
+            if (Character.isLowerCase(i.current()) && !isLower) {
+                isLower = true;
+                checkSum--;
+            }
+            if (Character.isDigit(i.current()) && !isNumber) {
+                isNumber = true;
+                checkSum--;
+            }
+            if (specialCharacters.indexOf(i.current()) != -1 && !isSpecialCharacter) {
+                isSpecialCharacter = true;
+                checkSum--;
+            }
+            i.next();
         }
-        return counter;
+
+        minimumNum = Math.max(minimumNum, checkSum);
+
+        return minimumNum;
     }
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -22,8 +49,8 @@ public class Solution {
 //        List<Integer> list = Arrays.asList(73, 67, 38, 33);
 //        List<Integer> result = gradingStudents(list);
 
-        String str = "baaddCrrcEb";
-        int result = camelcase(str);
+        String str = "#HackerRank";
+        int result = minimumNumber(11, str);
         System.out.println(result);
     }
 }
