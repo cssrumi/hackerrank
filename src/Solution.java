@@ -9,25 +9,18 @@ import static java.util.stream.Collectors.toMap;
 
 public class Solution {
 
-    static String caesarCipher(String s, int k) {
-        StringBuffer sb = new StringBuffer(s.length());
-        int diff = 'z' - 'a' + 1;
-        int realK = k % diff;
-        int lowerA = 'a';
-        int upperA = 'A';
+    static int marsExploration(String s) {
+        String sos = "SOS";
+        int diff = 0;
+        String temp;
 
-        CharacterIterator i = new StringCharacterIterator(s);
-        char current = i.current();
-        while (current != CharacterIterator.DONE) {
-            if (Character.isUpperCase(current)) {
-                sb.append((char) ((current - upperA + realK) % diff + upperA));
-            } else if (Character.isLowerCase(current)) {
-                sb.append((char) ((current - lowerA + realK) % diff + lowerA));
-            } else sb.append(current);
-
-            current = i.next();
+        for (int i = 0; i < s.length(); i += sos.length()) {
+            temp = s.substring(i, i + sos.length());
+            for (int l = 0; l < sos.length(); l++) {
+                if (temp.charAt(l) != sos.charAt(l)) diff++;
+            }
         }
-        return sb.toString();
+        return diff;
     }
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -38,8 +31,8 @@ public class Solution {
 //        List<Integer> list = Arrays.asList(73, 67, 38, 33);
 //        List<Integer> result = gradingStudents(list);
 
-        String str = "middle-Outz";
-        String result = caesarCipher(str, 2);
+        String str = "SOSSPSSQSSOR";
+        int result = marsExploration(str);
         System.out.println(result);
     }
 }
